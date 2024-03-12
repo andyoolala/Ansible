@@ -1,0 +1,28 @@
+- hosts: all
+  become: true
+  gather_facts: no
+  tasks:
+    - name: get account status
+      command: lslogins -aupc
+      register: userlist
+
+    - name: CSV - Get IOS devices facts
+      set_fact:
+        userlist_out: userlist.stdout_lines
+    - debug:
+        var=userlist.stdout_lines  
+
+    - name: CSV - Create file and set the header
+      lineinfile:
+        dest: "/tmp/test.csv"
+        line:
+          hostname,image,iostype,model,serialnum,system,version,spacefree_kb,spacetotal_kb
+        create: yes
+        state: present
+
+    - name: CSV - Write information into .csv file
+      lineinfile:
+        insertafter: EOF
+        dest: "/tmp/test.csv"
+        line: "{{ userlist.stdout_lines }}"
+

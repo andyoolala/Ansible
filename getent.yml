@@ -1,0 +1,18 @@
+- name: getetnt test
+  hosts: all
+  become: true
+  gather_facts: no
+  tasks:
+#    - name: Get all user info
+#      getent:
+#        database: passwd
+    - name: Show all uer info
+      debug:
+        var: getent_passwd
+    - name: Get all group info
+      getent:
+        database: group
+        split: ":"
+    - name: Show all group info
+      debug:
+        var: getent_group
