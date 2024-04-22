@@ -1,6 +1,0 @@
-- hosts: all
-  become: true
-  gather_facts: no
-  tasks:
-    - name: test script
-      script: accinv.sh
