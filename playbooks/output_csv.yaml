@@ -1,0 +1,12 @@
+- name: Write result to output.csv
+    block:
+      - name Write result to output.csv
+        delegate_to: localhost
+        lineinfile:
+          path: /tmp/output.csv
+          line: "{{ item.line | join('\n') }}"
+          create: yes
+          state: present
+    rescue:
+      - debug:
+          msg: "I caught an error {{ item }} " 

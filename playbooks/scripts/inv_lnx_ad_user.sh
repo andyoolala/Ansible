@@ -4,7 +4,7 @@
 inv_ad_user(){
 sudo cat /etc/sssd/sssd.conf |grep simple_allow_users |cut -d= -f2 |tr , "\n" | while read ident ;do
     echo -n "${ident}@$1,$(hostname -s),$(hostname -s),Linux Server,"
-    if [[ $(sudo -l -U ${ident}@$1 |grep '(ALL) ALL'|wc -l) -gt 0 ]]
+    if [[ $(sudo -l -U ${ident}@$1 |grep 'ALL'|wc -l) -gt 0 ]]
     then
         echo -n "Admin"
     else
