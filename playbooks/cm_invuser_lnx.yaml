@@ -6,6 +6,9 @@
       shell: command -v lslogins >/dev/null 2>&1
       register: lslogins_present
       ignore_errors: yes
+    - name: Debug
+      debug:
+        var: lslogins_present
     - name: get realm info
       shell: "realm list | grep domain-name | cut -d: -f2"
       register: realm_info

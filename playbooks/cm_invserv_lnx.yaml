@@ -1,0 +1,10 @@
+- hosts: all
+  become: true
+  gather_facts: no
+  tasks:
+  - name: collect facts about system services
+    service_facts:
+    register: services_state
+  - name: Debug
+    debug:
+      var: services_state.ansible_facts.services | list
