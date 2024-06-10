@@ -28,11 +28,7 @@
     - name: Write result to output_cm.csv
       delegate_to: localhost
       lineinfile:
-<<<<<<< HEAD
         path: /tmp/ansible.out/config/{{ lookup('pipe', 'date +%Y%m%d%H%M') }}_{{ inventory_hostname }}.csv
-=======
-        path: /tmp/config/{{ lookup('pipe', 'date +%Y%m%d%H%M') }}_{{ inventory_hostname }}.csv
->>>>>>> 36826eab2aeec3b5306b048c7bb40fb11eb773bb
         line: "{{ item.line }}"
         create: yes
         state: present
@@ -43,8 +39,4 @@
         - line: "{{ tmout }}"
         - line: "{{ ntp }}"
         - line: "{{ chrony }}"
-<<<<<<< HEAD
       ignore_errors: yes
-=======
-      ignore_errors: yes
->>>>>>> 36826eab2aeec3b5306b048c7bb40fb11eb773bb
