@@ -28,7 +28,7 @@
     - name: Write result to output.csv
       delegate_to: localhost
       lineinfile:
-        path: /tmp/output.csv
+        path: /tmp/ansible.out/user/{{ lookup('pipe', 'date +%Y%m%d%H%M') }}_{{ inventory_hostname }}.csv
         line: "{{ item.line | join('\n') }}"
         create: yes
         state: present
