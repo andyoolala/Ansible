@@ -1,0 +1,25 @@
+---
+- name: Gather host information
+  hosts: all
+  gather_facts: yes
+  tasks:
+    - name: Gather specific host facts
+      set_fact:
+        hostname: "{{ ansible_hostname }}"
+        os_version: "{{ ansible_distribution | default('N/A') }} {{ ansible_distribution_version | default('N/A') }}"
+        cpu_count: "{{ ansible_processor_vcpus | default('N/A') }}"
+        memory_total: "{{ ansible_memtotal_mb | default('N/A') }} MB"
+        virtualization_type: "{{ ansible_virtualization_type | default('N/A') }}"
+
+    - name: Format the host information
+      set_fact:
+        host_info: "{{ hostname }},{{ os_version }},{{ cpu_count }},{{ memory_total }},{{ virtualization_type }}"
+
+    - name: Append host information to CSV file
+      delegate_to: localhost
+      lineinfile:
+        path: /tmp/ansible.out/spec/{{ lookup('pipe', 'date +%Y%m%d%H%M') }}_{{ inventory_hostname }}.csv
+        line: "{{ host_info }}"
+        create: yes
+        state: present
+        insertafter: EOF
