@@ -6,9 +6,6 @@
       shell: command -v lslogins >/dev/null 2>&1
       register: lslogins_present
       ignore_errors: yes
-    - name: Debug
-      debug:
-        var: lslogins_present
     - name: get realm info
       shell: "realm list | grep domain-name | cut -d: -f2"
       register: realm_info
@@ -25,6 +22,9 @@
       script: scripts/inv_lnx_ad_user.sh
       register: ad_user_list
       when: realm_info.stdout | d("")
+    - name: Debug
+      debug:
+        var: local_user_list1.stdout_lines | d([])
     - name: Write result to output.csv
       delegate_to: localhost
       lineinfile:
@@ -37,4 +37,4 @@
         - line: "{{ local_user_list1.stdout_lines | d([]) }}"
         - line: "{{ local_user_list2.stdout_lines | d([]) }}"
         - line: "{{ ad_user_list.stdout_lines | d([]) }}"
-      ignore_errors: yes     
+      ignore_errors: yes
