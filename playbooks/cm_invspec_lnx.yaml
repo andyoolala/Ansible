@@ -22,7 +22,7 @@
     - name: Extract device names and sizes
       set_fact:
         disk_info: "{{ disk_info | default({}) | combine({item.key: item.value.size}) }}"
-      loop: "{{ ansible_devices | dict2items | selectattr('key', 'match', '^sd.*') }}"
+      loop: "{{ ansible_devices | dict2items | selectattr('key', 'match', '^sd.*') | list }}"
       when: item.value.size is defined
 
     - name: Format the host information
